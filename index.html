@@ -4,891 +4,85 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GrowthCore - LinkedIn Growth Strategy</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-      color: #191c1e;
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    /* Utility Classes */
-    .container {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 48px;
-    }
-
-    .btn-primary {
-      background: #00ba88;
-      color: #00432f;
-      border: none;
-      padding: 18px 32px;
-      border-radius: 12px;
-      font-weight: 600;
-      font-size: 14px;
-      cursor: pointer;
-      box-shadow: 0px 10px 15px -3px rgba(0, 186, 136, 0.2), 0px 4px 6px -4px rgba(0, 186, 136, 0.2);
-      transition: all 0.3s ease;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0px 15px 25px -5px rgba(0, 186, 136, 0.3);
-    }
-
-    .btn-secondary {
-      background: white;
-      color: #191c1e;
-      border: 2px solid rgba(25, 28, 30, 0.1);
-      padding: 18px 34px;
-      border-radius: 12px;
-      font-weight: 600;
-      font-size: 14px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .btn-secondary:hover {
-      border-color: #00ba88;
-      background: rgba(0, 186, 136, 0.05);
-    }
-
-    /* Hero Section */
-    .hero {
-      background: linear-gradient(135deg, #ffffff 0%, #f5f9f8 100%);
-      padding: 80px 48px;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .hero-content {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      align-items: center;
-      width: 100%;
-      max-width: 1280px;
-    }
-
-    .hero-left h1 {
-      font-size: 48px;
-      font-weight: 800;
-      line-height: 1.1;
-      margin-bottom: 24px;
-      letter-spacing: -0.96px;
-    }
-
-    .hero-left .gradient-text {
-      background: linear-gradient(125deg, #006c4d 0%, #00ba88 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(0, 186, 136, 0.1);
-      padding: 4px 12px;
-      border-radius: 9999px;
-      margin-bottom: 30px;
-      font-size: 12px;
-      font-weight: 500;
-      color: #006c4d;
-    }
-
-    .hero-badge::before {
-      content: '●';
-      font-size: 8px;
-    }
-
-    .hero-description {
-      font-size: 18px;
-      color: #49607e;
-      line-height: 1.6;
-      margin-bottom: 20px;
-    }
-
-    .hero-subtext {
-      font-size: 16px;
-      color: #3c4a43;
-      font-style: italic;
-      margin-bottom: 30px;
-      line-height: 1.6;
-    }
-
-    .hero-buttons {
-      display: flex;
-      gap: 16px;
-      margin-top: 40px;
-      flex-wrap: wrap;
-    }
-
-    .hero-right {
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .profile-card {
-      background: rgba(255, 255, 255, 0.7);
-      backdrop-filter: blur(6px);
-      border: 1px solid rgba(255, 255, 255, 0.5);
-      border-radius: 32px;
-      padding: 33px;
-      width: 580px;
-      box-shadow: 0px 25px 50px -12px rgba(0, 0, 0, 0.25);
-      transform: rotate(3deg);
-    }
-
-    .profile-header {
-      display: flex;
-      gap: 16px;
-      margin-bottom: 24px;
-      align-items: center;
-    }
-
-    .profile-avatar {
-      width: 64px;
-      height: 64px;
-      background: #e0e3e6;
-      border-radius: 9999px;
-      border: 2px solid #006c4d;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .profile-avatar img {
-      width: 100%;
-      height: 100%;
-      border-radius: 9999px;
-      object-fit: cover;
-    }
-
-    .profile-info h3 {
-      font-size: 24px;
-      font-weight: 700;
-      color: #191c1e;
-    }
-
-    .profile-info p {
-      font-size: 12px;
-      color: #49607e;
-      font-weight: 500;
-    }
-
-    .profile-stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-top: 16px;
-    }
-
-    .stat-box {
-      padding: 16px;
-      border-radius: 12px;
-      text-align: center;
-    }
-
-    .stat-box.green {
-      background: rgba(0, 186, 136, 0.2);
-    }
-
-    .stat-box.blue {
-      background: rgba(196, 220, 255, 0.2);
-    }
-
-    .stat-box.gray {
-      background: #e0e3e6;
-    }
-
-    .stat-box-value {
-      font-weight: 700;
-      font-size: 16px;
-      color: #006c4d;
-      margin-bottom: 4px;
-    }
-
-    .stat-box.blue .stat-box-value {
-      color: #49607e;
-    }
-
-    .stat-box.gray .stat-box-value {
-      color: #191c1e;
-    }
-
-    .stat-box-label {
-      font-size: 10px;
-      font-weight: 700;
-      color: #3c4a43;
-      text-transform: uppercase;
-    }
-
-    /* Achievement Section */
-    .achievements {
-      background: #001d32;
-      padding: 80px 48px;
-      text-align: center;
-    }
-
-    .achievements-content {
-      max-width: 1280px;
-      margin: 0 auto;
-    }
-
-    .achievements h2 {
-      font-size: 32px;
-      font-weight: 700;
-      color: white;
-      margin-bottom: 16px;
-      letter-spacing: -0.32px;
-    }
-
-    .achievements-divider {
-      width: 80px;
-      height: 6px;
-      background: #00ba88;
-      border-radius: 9999px;
-      margin: 0 auto 48px;
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 24px;
-      margin-bottom: 48px;
-    }
-
-    .stat-card {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      padding: 33px;
-      text-align: center;
-    }
-
-    .stat-card-number {
-      font-size: 30px;
-      font-weight: 700;
-      color: white;
-      margin: 16px 0;
-    }
-
-    .stat-card-label {
-      font-size: 16px;
-      color: #bbcac0;
-    }
-
-    .achievements-quote {
-      font-size: 16px;
-      color: #6bfbc4;
-      font-style: italic;
-    }
-
-    /* Lead Form Section */
-    .lead-form-section {
-      background: white;
-      padding: 80px 48px;
-      margin: 65px;
-      border-radius: 48px;
-      box-shadow: 0px 20px 25px -5px rgba(0, 0, 0, 0.1), 0px 8px 10px -6px rgba(0, 0, 0, 0.1);
-    }
-
-    .lead-form-wrapper {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      max-width: 1280px;
-      margin: 0 auto;
-    }
-
-    .lead-form-left h2 {
-      font-size: 32px;
-      font-weight: 700;
-      color: #191c1e;
-      margin-bottom: 22px;
-      letter-spacing: -0.32px;
-    }
-
-    .lead-form-left p {
-      font-size: 18px;
-      color: #49607e;
-      line-height: 1.6;
-      margin-bottom: 32px;
-    }
-
-    .feature-list {
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-    }
-
-    .feature-item {
-      display: flex;
-      gap: 16px;
-      align-items: flex-start;
-    }
-
-    .feature-icon {
-      width: 40px;
-      height: 40px;
-      background: rgba(0, 186, 136, 0.1);
-      border-radius: 9999px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .feature-icon::before {
-      content: '✓';
-      color: #006c4d;
-      font-weight: 700;
-      font-size: 20px;
-    }
-
-    .feature-text {
-      font-size: 16px;
-      color: #3c4a43;
-    }
-
-    .lead-form-right {
-      display: flex;
-      align-items: center;
-    }
-
-    /* Audit Section */
-    .audit-section {
-      background: rgba(196, 220, 255, 0.1);
-      padding: 80px 48px;
-    }
-
-    .audit-card {
-      background: white;
-      border-top: 8px solid #00ba88;
-      border-radius: 40px;
-      padding: 72px 64px 64px;
-      max-width: 768px;
-      margin: 0 auto;
-      box-shadow: 0px 25px 50px -12px rgba(0, 0, 0, 0.25);
-      position: relative;
-    }
-
-    .audit-card h2 {
-      font-size: 32px;
-      font-weight: 700;
-      text-align: center;
-      margin-bottom: 22px;
-      letter-spacing: -0.32px;
-    }
-
-    .audit-card p {
-      text-align: center;
-      font-size: 18px;
-      color: #49607e;
-      line-height: 1.6;
-      margin-bottom: 30px;
-    }
-
-    .audit-checklist {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      margin-bottom: 40px;
-    }
-
-    .checklist-item {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-    }
-
-    .checklist-item::before {
-      content: '✓';
-      color: #006c4d;
-      font-weight: 700;
-      font-size: 16px;
-      width: 16px;
-      height: 16px;
-      flex-shrink: 0;
-    }
-
-    .checklist-item span {
-      font-size: 16px;
-      color: #191c1e;
-    }
-
-    .price-tag {
-      position: absolute;
-      top: 24px;
-      right: 27px;
-      background: #001d32;
-      padding: 8px 24px;
-      border-radius: 16px;
-      box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -4px rgba(0, 0, 0, 0.1);
-      transform: rotate(-12deg);
-    }
-
-    .price-tag-value {
-      font-size: 32px;
-      font-weight: 700;
-      color: #6bfbc4;
-      text-align: center;
-      letter-spacing: -0.32px;
-    }
-
-    .audit-button {
-      background: #001d32;
-      color: #6bfbc4;
-      border: none;
-      padding: 20px 48px;
-      border-radius: 9999px;
-      font-weight: 400;
-      font-size: 16px;
-      cursor: pointer;
-      width: fit-content;
-      margin: 0 auto;
-      display: block;
-      box-shadow: 0px 20px 25px -5px rgba(0, 0, 0, 0.1), 0px 8px 10px -6px rgba(0, 0, 0, 0.1);
-      transition: all 0.3s ease;
-    }
-
-    .audit-button:hover {
-      transform: translateY(-2px);
-    }
-
-    /* Reviews Section */
-    .reviews-section {
-      padding: 80px 48px;
-      background: white;
-    }
-
-    .reviews-header {
-      text-align: center;
-      margin-bottom: 48px;
-    }
-
-    .reviews-header h2 {
-      font-size: 32px;
-      font-weight: 700;
-      margin-bottom: 16px;
-      letter-spacing: -0.32px;
-    }
-
-    .reviews-header p {
-      font-size: 16px;
-      color: #49607e;
-    }
-
-    .reviews-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 32px;
-      max-width: 1280px;
-      margin: 0 auto;
-      margin-bottom: 48px;
-    }
-
-    .review-card {
-      background: white;
-      border: 1px solid rgba(187, 202, 192, 0.2);
-      border-radius: 24px;
-      padding: 33px;
-      box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .review-stars {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 16px;
-    }
-
-    .review-stars::before {
-      content: '★★★★★';
-      color: #ffc107;
-      font-size: 16px;
-    }
-
-    .review-text {
-      font-size: 16px;
-      color: #3c4a43;
-      font-style: italic;
-      line-height: 1.5;
-      margin-bottom: 24px;
-    }
-
-    .review-author {
-      border-top: 1px solid rgba(187, 202, 192, 0.1);
-      padding-top: 17px;
-      display: flex;
-      gap: 12px;
-      align-items: center;
-    }
-
-    .review-avatar {
-      width: 40px;
-      height: 40px;
-      background: #e0e3e6;
-      border-radius: 9999px;
-      flex-shrink: 0;
-    }
-
-    .review-info h4 {
-      font-size: 16px;
-      font-weight: 400;
-      color: #191c1e;
-    }
-
-    .review-info p {
-      font-size: 10px;
-      color: #49607e;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .reviews-quote {
-      text-align: center;
-      font-size: 16px;
-      color: #49607e;
-      font-weight: 400;
-    }
-
-    /* FAQ Section */
-    .faq-section {
-      padding: 80px 48px;
-      background: white;
-    }
-
-    .faq-content {
-      max-width: 768px;
-      margin: 0 auto;
-    }
-
-    .faq-header {
-      text-align: center;
-      margin-bottom: 48px;
-    }
-
-    .faq-header h2 {
-      font-size: 32px;
-      font-weight: 700;
-      letter-spacing: -0.32px;
-      margin-bottom: 16px;
-    }
-
-    .faq-item {
-      background: white;
-      border: 1px solid rgba(187, 202, 192, 0.3);
-      border-radius: 16px;
-      overflow: hidden;
-      margin-bottom: 16px;
-    }
-
-    .faq-question {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 24px;
-      cursor: pointer;
-      background: white;
-      border: none;
-      width: 100%;
-      text-align: left;
-      transition: background 0.3s ease;
-    }
-
-    .faq-question:hover {
-      background: rgba(0, 186, 136, 0.05);
-    }
-
-    .faq-question h3 {
-      font-size: 24px;
-      font-weight: 700;
-      color: #191c1e;
-    }
-
-    .faq-toggle {
-      width: 12px;
-      height: 7.4px;
-      flex-shrink: 0;
-      transition: transform 0.3s ease;
-    }
-
-    .faq-item.active .faq-toggle {
-      transform: rotate(180deg);
-    }
-
-    .faq-answer {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease;
-      background: #f9faf9;
-    }
-
-    .faq-item.active .faq-answer {
-      max-height: 500px;
-    }
-
-    .faq-answer-text {
-      padding: 24px;
-      font-size: 16px;
-      color: #3c4a43;
-      line-height: 1.6;
-    }
-
-    /* Form Styles */
-    .form-group {
-      margin-bottom: 24px;
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 14px;
-      font-weight: 600;
-      color: #191c1e;
-      margin-bottom: 8px;
-    }
-
-    .form-group input {
-      width: 100%;
-      padding: 12px 16px;
-      border: 1px solid rgba(25, 28, 30, 0.1);
-      border-radius: 8px;
-      font-size: 14px;
-      font-family: inherit;
-      transition: all 0.3s ease;
-    }
-
-    .form-group input:focus {
-      outline: none;
-      border-color: #00ba88;
-      box-shadow: 0 0 0 3px rgba(0, 186, 136, 0.1);
-    }
-
-    .form-group input::placeholder {
-      color: #49607e;
-    }
-
-    /* Success/Error Messages */
-    .message {
-      display: none;
-      padding: 16px;
-      border-radius: 8px;
-      margin-bottom: 16px;
-      font-size: 14px;
-      text-align: center;
-    }
-
-    .message.success {
-      background: rgba(0, 186, 136, 0.1);
-      color: #006c4d;
-      border: 1px solid rgba(0, 186, 136, 0.3);
-    }
-
-    .message.error {
-      background: rgba(255, 76, 76, 0.1);
-      color: #cc0000;
-      border: 1px solid rgba(255, 76, 76, 0.3);
-    }
-
-    .message.show {
-      display: block;
-    }
-
-    /* Responsive */
-    @media (max-width: 1024px) {
-      .hero-content {
-        grid-template-columns: 1fr;
-        gap: 40px;
-      }
-
-      .hero-right {
-        display: none;
-      }
-
-      .stats-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-
-      .lead-form-wrapper {
-        grid-template-columns: 1fr;
-      }
-
-      .reviews-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 768px) {
-      .container {
-        padding: 0 24px;
-      }
-
-      .hero {
-        padding: 60px 24px;
-      }
-
-      .hero-left h1 {
-        font-size: 36px;
-      }
-
-      .hero-description {
-        font-size: 16px;
-      }
-
-      .hero-buttons {
-        flex-direction: column;
-      }
-
-      .hero-buttons .btn-primary,
-      .hero-buttons .btn-secondary {
-        width: 100%;
-      }
-
-      .achievements {
-        padding: 60px 24px;
-      }
-
-      .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .stat-card {
-        padding: 20px;
-      }
-
-      .stat-card-number {
-        font-size: 24px;
-      }
-
-      .stat-card-label {
-        font-size: 14px;
-      }
-
-      .lead-form-section {
-        margin: 24px;
-        padding: 40px 24px;
-      }
-
-      .audit-card {
-        padding: 40px 24px;
-      }
-
-      .audit-checklist {
-        grid-template-columns: 1fr;
-      }
-
-      .reviews-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .faq-content {
-        padding: 0 24px;
-      }
-
-      .faq-question h3 {
-        font-size: 18px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .hero-left h1 {
-        font-size: 28px;
-      }
-
-      .achievements h2 {
-        font-size: 24px;
-      }
-
-      .lead-form-left h2 {
-        font-size: 24px;
-      }
-
-      .audit-card h2 {
-        font-size: 24px;
-      }
-
-      .reviews-header h2 {
-        font-size: 24px;
-      }
-
-      .faq-header h2 {
-        font-size: 24px;
-      }
-    }
-  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header" id="top">
+  <div class="site-nav shell">
+    <a class="brand" href="#top" aria-label="GrowthCore home">
+      <svg class="brand-icon" viewBox="0 0 36 36" aria-hidden="true"><rect width="36" height="36" rx="11" fill="currentColor"/><path d="m9 24 7-7 4 4 7-9m-6 0h6v6" fill="none" stroke="#dcf875" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      GrowthCore<span>.</span>
+    </a>
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="#results">Results</a>
+      <a href="#audit">Profile Audit</a>
+      <a href="#reviews">Testimonials</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="btn-secondary nav-cta" href="#roadmap">Get Started <span aria-hidden="true">↗</span></a>
+  </div>
+</header>
 
-<!-- Hero Section -->
+<main id="main-content">
 <section class="hero">
-  <div class="hero-content">
+  <div class="hero-content shell">
     <div class="hero-left">
-      <span class="hero-badge">Top-Tier LinkedIn Strategy</span>
-      <h1>Turn Your LinkedIn From <span class="gradient-text">Invisible to Influential</span></h1>
-      <p class="hero-description">We don't just "optimize profiles". We build your personal brand from scratch — with strategy, content, and consistency that actually gets you seen.</p>
-      <p class="hero-subtext">From 0 to hero on LinkedIn — without confusion, guesswork, or wasting months figuring it out alone.</p>
+      <span class="hero-badge">LinkedIn Growth Strategy</span>
+      <h1>From invisible <span>to <strong>influential.</strong></span></h1>
+      <p class="hero-description">Build a LinkedIn presence that brings the right people to you. We help you sharpen your profile, create better content, and show up consistently.</p>
       <div class="hero-buttons">
-        <button class="btn-primary" onclick="scrollToAudit()">Get Your Profile Audit</button>
-        <button class="btn-secondary" onclick="scrollToForm()">Start Growing Today</button>
+        <a class="btn-primary" href="#audit">Get a ₹1 Profile Audit <span aria-hidden="true">↗</span></a>
+        <a class="btn-secondary" href="#roadmap">Get My Roadmap <span aria-hidden="true">→</span></a>
       </div>
+      <ul class="hero-topics" aria-label="GrowthCore services">
+        <li>Profile optimization</li><li>Content strategy</li><li>Lead generation</li>
+      </ul>
     </div>
-    <div class="hero-right">
-      <div class="profile-card">
-        <div class="profile-header">
-          <div class="profile-avatar">
-            <img src="https://www.figma.com/api/mcp/asset/1eeba60e-a9c1-4685-82e9-d901672fab82" alt="Alex Thompson">
+    <figure class="growth-preview">
+      <div class="dashboard-panel">
+        <div class="dashboard-header">
+          <div class="dashboard-heading">
+            <svg class="dashboard-icon" viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" rx="9" fill="#eee8ff"/><path d="M10 24V10m0 14h14m-11-4 4-5 3 2 4-5" fill="none" stroke="#5638a1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div><h2>Growth overview</h2><p>LinkedIn performance</p></div>
           </div>
-          <div class="profile-info">
-            <h3>Alex Thompson</h3>
-            <p>Tech Visionary & Founder</p>
-          </div>
+          <span class="dashboard-badge">Sample data</span>
         </div>
-        <div class="profile-stats">
-          <div class="stat-box green">
-            <div class="stat-box-value">14k</div>
-            <div class="stat-box-label">Reach</div>
-          </div>
-          <div class="stat-box blue">
-            <div class="stat-box-value">82%</div>
-            <div class="stat-box-label">Engage</div>
-          </div>
-          <div class="stat-box gray">
-            <div class="stat-box-value">24</div>
-            <div class="stat-box-label">Leads</div>
-          </div>
+        <div class="dashboard-metrics">
+          <div><span>Profile reach</span><strong>14k</strong></div>
+          <div><span>Engagement</span><strong>82%</strong></div>
+          <div><span>Inbound leads</span><strong>24</strong></div>
+        </div>
+        <div class="dashboard-chart" aria-hidden="true">
+          <div class="chart-header"><strong>Reach over time</strong><span>4-week view</span></div>
+          <svg viewBox="0 0 420 128" preserveAspectRatio="none" focusable="false">
+            <defs><linearGradient id="chart-fill" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#b7a2f3" stop-opacity=".6"/><stop offset="1" stop-color="#eae1fc" stop-opacity=".18"/></linearGradient></defs>
+            <path d="M0 22H420M0 54H420M0 86H420M0 118H420" stroke="#ebe7f2" stroke-dasharray="4 4"/>
+            <path d="M3 103C30 107 49 74 81 77S123 96 154 70 204 43 235 57 268 67 296 44 337 54 364 33 393 44 415 16V118H3Z" fill="url(#chart-fill)"/>
+            <path d="M3 103C30 107 49 74 81 77S123 96 154 70 204 43 235 57 268 67 296 44 337 54 364 33 393 44 415 16" fill="none" stroke="#7750d0" stroke-width="2.5" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+            <circle cx="415" cy="16" r="4" fill="#7750d0" stroke="white" stroke-width="1.5"/>
+          </svg>
+          <div class="chart-labels"><span>Week 1</span><span>Week 2</span><span>Week 3</span><span>Week 4</span></div>
         </div>
       </div>
-    </div>
+      <figcaption><span aria-hidden="true">↗</span> Track reach, engagement, and leads</figcaption>
+    </figure>
   </div>
 </section>
 
 <!-- Achievement Section -->
-<section class="achievements">
-  <div class="achievements-content">
+<section class="achievements" id="results">
+  <div class="achievements-content shell">
+    <p class="eyebrow">01 / Results</p>
     <h2>Real Growth. Real Results.</h2>
-    <div class="achievements-divider"></div>
     
     <div class="stats-grid">
       <div class="stat-card">
         <div class="stat-card-number">100+</div>
-        <div class="stat-card-label">Professionals<br>helped</div>
+        <div class="stat-card-label">Professionals helped</div>
       </div>
       <div class="stat-card">
         <div class="stat-card-number">Inbound</div>
@@ -913,9 +107,10 @@
 </section>
 
 <!-- Lead Form Section -->
-<section class="lead-form-section">
-  <div class="lead-form-wrapper">
+<section class="lead-form-section" id="roadmap">
+  <div class="lead-form-wrapper shell">
     <div class="lead-form-left">
+      <p class="eyebrow">02 / Your Roadmap</p>
       <h2>Let's Build Your LinkedIn Presence Together</h2>
       <p>Tell us a bit about you — and we'll show you exactly how to grow.</p>
       
@@ -933,7 +128,7 @@
 
     <div class="lead-form-right">
       <form id="leadForm">
-        <div class="message" id="formMessage"></div>
+        <div class="message" id="formMessage" role="status"></div>
         
         <div class="form-group">
           <label for="name">Full Name *</label>
@@ -950,44 +145,38 @@
           <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
         </div>
 
-        <button type="submit" class="btn-primary" style="width: 100%;">Get My Personalized Roadmap</button>
+        <button type="submit" class="btn-primary">Get My Personalized Roadmap <span aria-hidden="true">↗</span></button>
       </form>
     </div>
   </div>
 </section>
 
 <!-- Audit Section -->
-<section class="audit-section">
+<section class="audit-section shell" id="audit">
   <div class="audit-card">
-    <div class="price-tag">
-      <div class="price-tag-value">₹1</div>
+    <div class="audit-intro">
+      <p class="eyebrow">03 / Profile Audit</p>
+      <h2>Find out what’s holding your profile back.</h2>
+      <p>Get a practical review of your LinkedIn profile, plus clear next steps to help the right clients find you.</p>
     </div>
 
-    <h2>Rupee 1 LinkedIn Audit</h2>
-    <p>Low risk, high impact. Let us tear down your profile and show you exactly what's holding you back from high-ticket clients.</p>
-
-    <div class="audit-checklist">
-      <div class="checklist-item">
-        <span>Profile review</span>
+    <div class="audit-details">
+      <p class="price-tag"><strong>₹1</strong> / LinkedIn profile audit</p>
+      <div class="audit-checklist">
+        <div class="checklist-item">Profile review</div>
+        <div class="checklist-item">Content gap analysis</div>
+        <div class="checklist-item">Brand direction</div>
+        <div class="checklist-item">Action steps</div>
       </div>
-      <div class="checklist-item">
-        <span>Content gap analysis</span>
-      </div>
-      <div class="checklist-item">
-        <span>Brand direction</span>
-      </div>
-      <div class="checklist-item">
-        <span>Action steps</span>
-      </div>
+      <a href="https://payments.cashfree.com/forms/getaudit" target="_blank" rel="noopener noreferrer" class="btn-primary">Book My Audit Now <span aria-hidden="true">↗</span></a>
     </div>
-
-    <a href="https://payments.cashfree.com/forms/getaudit" target="_blank" class="audit-button">Book My Audit Now</a>
   </div>
 </section>
 
 <!-- Reviews Section -->
-<section class="reviews-section">
+<section class="reviews-section shell" id="reviews">
   <div class="reviews-header">
+    <p class="eyebrow">04 / Testimonials</p>
     <h2>What Our Clients Say</h2>
     <p>Proven results across industries</p>
   </div>
@@ -999,7 +188,7 @@
         <p class="review-text">"GrowthCore completely changed how I approach LinkedIn. I went from getting zero reach to having recruiters DM me weekly."</p>
       </div>
       <div class="review-author">
-        <div class="review-avatar"></div>
+        <div class="review-avatar" aria-hidden="true">SJ</div>
         <div class="review-info">
           <h4>Sarah J.</h4>
           <p>Product Manager</p>
@@ -1013,7 +202,7 @@
         <p class="review-text">"The content system they built for me is incredible. It saves me hours and actually converts leads. Best investment this year."</p>
       </div>
       <div class="review-author">
-        <div class="review-avatar"></div>
+        <div class="review-avatar" aria-hidden="true">MD</div>
         <div class="review-info">
           <h4>Mark D.</h4>
           <p>SaaS Founder</p>
@@ -1027,7 +216,7 @@
         <p class="review-text">"Professional, strategic, and consistent. They handle everything while I focus on running my business. Highly recommend."</p>
       </div>
       <div class="review-author">
-        <div class="review-avatar"></div>
+        <div class="review-avatar" aria-hidden="true">ER</div>
         <div class="review-info">
           <h4>Elena R.</h4>
           <p>Design Lead</p>
@@ -1041,7 +230,7 @@
         <p class="review-text">"I was skeptical about LinkedIn branding until I worked with GrowthCore. My engagement is up by 400% in just two months."</p>
       </div>
       <div class="review-author">
-        <div class="review-avatar"></div>
+        <div class="review-avatar" aria-hidden="true">KW</div>
         <div class="review-info">
           <h4>Kevin W.</h4>
           <p>Consultant</p>
@@ -1054,15 +243,16 @@
 </section>
 
 <!-- FAQ Section -->
-<section class="faq-section">
-  <div class="faq-content">
+<section class="faq-section" id="faq">
+  <div class="faq-content shell">
     <div class="faq-header">
+      <p class="eyebrow">05 / FAQ</p>
       <h2>Frequently Asked Questions</h2>
     </div>
 
     <div class="faq-item active">
       <button class="faq-question" onclick="toggleFaq(this)">
-        <h3>How long does it take to see results?</h3>
+        <span>How long does it take to see results?</span>
         <svg class="faq-toggle" viewBox="0 0 12 7.4" fill="none">
           <path d="M1 1L6 6.4L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
         </svg>
@@ -1076,7 +266,7 @@
 
     <div class="faq-item">
       <button class="faq-question" onclick="toggleFaq(this)">
-        <h3>Do I have to write my own content?</h3>
+        <span>Do I have to write my own content?</span>
         <svg class="faq-toggle" viewBox="0 0 12 7.4" fill="none">
           <path d="M1 1L6 6.4L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
         </svg>
@@ -1090,7 +280,7 @@
 
     <div class="faq-item">
       <button class="faq-question" onclick="toggleFaq(this)">
-        <h3>What exactly is the ₹1 Audit?</h3>
+        <span>What exactly is the ₹1 Audit?</span>
         <svg class="faq-toggle" viewBox="0 0 12 7.4" fill="none">
           <path d="M1 1L6 6.4L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
         </svg>
@@ -1104,7 +294,7 @@
 
     <div class="faq-item">
       <button class="faq-question" onclick="toggleFaq(this)">
-        <h3>Is this service right for my industry?</h3>
+        <span>Is this service right for my industry?</span>
         <svg class="faq-toggle" viewBox="0 0 12 7.4" fill="none">
           <path d="M1 1L6 6.4L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
         </svg>
@@ -1118,7 +308,7 @@
 
     <div class="faq-item">
       <button class="faq-question" onclick="toggleFaq(this)">
-        <h3>How much time do I need to commit?</h3>
+        <span>How much time do I need to commit?</span>
         <svg class="faq-toggle" viewBox="0 0 12 7.4" fill="none">
           <path d="M1 1L6 6.4L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
         </svg>
@@ -1132,7 +322,7 @@
 
     <div class="faq-item">
       <button class="faq-question" onclick="toggleFaq(this)">
-        <h3>Can you help me get more followers?</h3>
+        <span>Can you help me get more followers?</span>
         <svg class="faq-toggle" viewBox="0 0 12 7.4" fill="none">
           <path d="M1 1L6 6.4L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
         </svg>
@@ -1145,6 +335,15 @@
     </div>
   </div>
 </section>
+</main>
+
+<footer class="site-footer">
+  <div class="shell footer-inner">
+    <a class="brand" href="#top">GrowthCore<span>.</span></a>
+    <p>LinkedIn strategy, content, and profile optimization.</p>
+    <a href="#top">Back to top ↑</a>
+  </div>
+</footer>
 
 <script>
   // Google Apps Script deployment URL
@@ -1225,29 +424,25 @@
     setTimeout(() => msg.classList.remove('show'), 5000);
   }
 
-  // FAQ Toggle
+  const faqItems = document.querySelectorAll('.faq-item');
+
+  function setFaqState(item, expanded) {
+    item.classList.toggle('active', expanded);
+    item.querySelector('.faq-question').setAttribute('aria-expanded', String(expanded));
+    item.querySelector('.faq-answer').hidden = !expanded;
+  }
+
+  faqItems.forEach((item, index) => {
+    const answer = item.querySelector('.faq-answer');
+    answer.id = `faq-answer-${index + 1}`;
+    item.querySelector('.faq-question').setAttribute('aria-controls', answer.id);
+    setFaqState(item, item.classList.contains('active'));
+  });
+
   function toggleFaq(button) {
-    const item = button.parentElement;
-    const wasActive = item.classList.contains('active');
-    
-    // Close all items
-    document.querySelectorAll('.faq-item').forEach(faq => {
-      faq.classList.remove('active');
-    });
-    
-    // Open clicked item if it wasn't active
-    if (!wasActive) {
-      item.classList.add('active');
-    }
-  }
-
-  // Smooth scroll helpers
-  function scrollToForm() {
-    document.querySelector('.lead-form-section').scrollIntoView({ behavior: 'smooth' });
-  }
-
-  function scrollToAudit() {
-    document.querySelector('.audit-section').scrollIntoView({ behavior: 'smooth' });
+    const selectedItem = button.closest('.faq-item');
+    const shouldOpen = !selectedItem.classList.contains('active');
+    faqItems.forEach(item => setFaqState(item, item === selectedItem && shouldOpen));
   }
 </script>
 
