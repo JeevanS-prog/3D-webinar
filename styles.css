@@ -193,6 +193,67 @@ button, input { font: inherit; }
 .site-footer :focus-visible { outline-color: var(--lime); }
 .footer-inner p { color: #ddd2e5; font-size: .85rem; }
 
+/* Floating decorative objects: files, books, graphs */
+.hero, .achievements { position: relative; overflow: hidden; isolation: isolate; }
+.hero-content, .achievements-content { position: relative; z-index: 1; }
+.floaters { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.achievements .floaters { z-index: 0; }
+.floater {
+  position: absolute;
+  width: var(--size, 60px);
+  translate: calc(var(--px, 0) * var(--speed, .6) * 46px) calc(var(--py, 0) * var(--speed, .6) * 46px);
+  transition: translate .5s cubic-bezier(.2, .7, .3, 1);
+}
+.floater svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 14px 16px #3a1f6e33);
+  animation: float var(--dur, 7s) ease-in-out var(--delay, 0s) infinite alternate;
+  transform-origin: 50% 60%;
+}
+@keyframes float {
+  0% { transform: translate3d(0, 0, 0) rotate(var(--r0, -8deg)) scale(1); }
+  50% { transform: translate3d(var(--dx, 8px), -18px, 0) rotate(var(--r1, 6deg)) scale(1.05); }
+  100% { transform: translate3d(calc(var(--dx, 8px) * -1), -6px, 0) rotate(var(--r0, -8deg)) scale(.97); }
+}
+@keyframes spin-float {
+  from { transform: translateY(0) rotate(0deg) scale(.9); }
+  50% { transform: translateY(-14px) rotate(180deg) scale(1.15); }
+  to { transform: translateY(0) rotate(360deg) scale(.9); }
+}
+.f-file { --size: 64px; top: 7%; left: 1.5%; --dur: 6.5s; --r0: -14deg; --r1: -2deg; }
+.f-spark { --size: 30px; top: 9%; left: 41%; }
+.f-spark svg, .f-dot svg { animation: spin-float 9s linear infinite; filter: drop-shadow(0 6px 8px #ffb02e55); }
+.f-book { --size: 62px; bottom: 3%; left: 33%; --dur: 8s; --delay: -3s; --r0: 10deg; --r1: -6deg; }
+.f-bars { --size: 76px; top: 3%; right: 3%; --dur: 7.5s; --delay: -1s; --r0: 9deg; --r1: -4deg; }
+.f-pie { --size: 62px; bottom: 5%; right: 1.5%; --dur: 9s; --delay: -4s; --r0: -6deg; --r1: 14deg; }
+.f-folder { --size: 56px; top: 47%; left: 46%; --dur: 6s; --delay: -2s; --r0: -10deg; --r1: 4deg; }
+.f-trend { --size: 62px; bottom: 2%; right: 30%; --dur: 7s; --delay: -5s; --r0: 6deg; --r1: -8deg; }
+.f-dot { --size: 18px; top: 38%; right: .8%; }
+.f-dot svg { animation-duration: 6s; filter: none; }
+.achievements .floater { opacity: .9; }
+.achievements .floater svg { filter: drop-shadow(0 12px 18px #0007); }
+.f-doc2 { --size: 58px; top: 12%; right: 4%; --dur: 7s; --r0: 12deg; --r1: -4deg; }
+.f-book2 { --size: 66px; bottom: 10%; left: 2%; --dur: 8.5s; --delay: -2s; --r0: -8deg; --r1: 8deg; }
+.f-pie2 { --size: 44px; top: 10%; left: 46%; --dur: 6s; --delay: -3s; }
+
+@media (max-width: 1100px) {
+  .f-folder, .f-pie2 { display: none; }
+  .f-spark { left: 46%; }
+}
+@media (max-width: 760px) {
+  .floater { --size: 42px !important; }
+  .f-file { top: 1.5%; left: auto; right: 4%; }
+  .f-bars { top: auto; bottom: 47%; right: 2%; }
+  .f-book { left: 2%; bottom: 1%; }
+  .f-trend { right: 22%; bottom: 0; }
+  .f-spark { top: 2%; left: 52%; }
+  .f-dot { top: 26%; }
+  .f-doc2 { top: 3%; }
+  .f-book2 { display: none; }
+}
+
 @media (max-width: 940px) {
   .reviews-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
@@ -223,4 +284,5 @@ button, input { font: inherit; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition: none !important; }
   .btn-primary:hover { transform: none; }
+  .floater svg { animation: none !important; }
 }
