@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GrowthCore - LinkedIn Growth Strategy</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Crect width='36' height='36' rx='11' fill='%2321182d'/%3E%3Cpath d='m9 24 7-7 4 4 7-9m-6 0h6v6' fill='none' stroke='%23dcf875' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -23,7 +24,13 @@
       <a href="#reviews">Testimonials</a>
       <a href="#faq">FAQ</a>
     </nav>
-    <a class="btn-secondary nav-cta" href="#roadmap">Get Started <span aria-hidden="true">↗</span></a>
+    <div class="nav-actions">
+      <button class="nav-ai" type="button" id="navAiChat">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5 9.4 6 14 7.4 9.4 8.8 8 13.4 6.6 8.8 2 7.4 6.6 6Z" fill="currentColor"/></svg>
+        <span>Ask AI</span>
+      </button>
+      <a class="btn-secondary nav-cta" href="#roadmap">Get Started <span aria-hidden="true">↗</span></a>
+    </div>
   </div>
 </header>
 
@@ -360,6 +367,47 @@
   </div>
 </footer>
 
+<!-- AI chat assistant -->
+<div class="ai-chat" id="aiChat" data-open="false">
+  <button class="ai-chat-launcher" type="button" id="aiChatLauncher" aria-expanded="false" aria-controls="aiChatPanel">
+    <span class="ai-chat-launcher-icon" aria-hidden="true">
+      <svg class="icon-chat" viewBox="0 0 24 24"><path d="M21 11.5a7.5 7.5 0 0 1-7.5 7.5H8l-4 3v-4.6A7.5 7.5 0 0 1 3.5 11.5 7.5 7.5 0 0 1 11 4h2.5A7.5 7.5 0 0 1 21 11.5Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8.5 11.5h.01M12 11.5h.01M15.5 11.5h.01" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/></svg>
+      <svg class="icon-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </span>
+    <span class="ai-chat-launcher-label">Ask GrowthCore AI</span>
+  </button>
+
+  <section class="ai-chat-panel" id="aiChatPanel" hidden aria-label="GrowthCore AI assistant">
+    <header class="ai-chat-header">
+      <div class="ai-chat-id">
+        <span class="ai-chat-avatar" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 2.5 13.9 9 20.5 11 13.9 13 12 19.5 10.1 13 3.5 11 10.1 9Z" fill="currentColor"/></svg>
+        </span>
+        <div>
+          <h2>GrowthCore AI</h2>
+          <p><span class="ai-chat-dot" aria-hidden="true"></span>Online · answers instantly</p>
+        </div>
+      </div>
+      <button class="ai-chat-close" type="button" id="aiChatClose" aria-label="Close chat">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </header>
+
+    <div class="ai-chat-log" id="aiChatLog" role="log" aria-live="polite" aria-relevant="additions"></div>
+
+    <div class="ai-chat-suggest" id="aiChatSuggest"></div>
+
+    <form class="ai-chat-form" id="aiChatForm">
+      <label class="visually-hidden" for="aiChatInput">Message GrowthCore AI</label>
+      <textarea id="aiChatInput" rows="1" placeholder="Ask about the audit, pricing, results…" autocomplete="off" maxlength="600"></textarea>
+      <button type="submit" aria-label="Send message">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h14M12.5 5.5 19 12l-6.5 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </form>
+    <p class="ai-chat-note">AI assistant · may be imperfect · for a human, use the roadmap form</p>
+  </section>
+</div>
+
 <script>
   // Google Apps Script deployment URL
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwD1-jJt4Wggx-I4XDcBT_tOec4PgbAr4nCsksSFlAvsKxsT8bFRw1u26qKj5IY_StGxg/exec';
@@ -475,6 +523,7 @@
     hero.addEventListener('pointerleave', () => { hero.style.setProperty('--px', 0); hero.style.setProperty('--py', 0); });
   }
 </script>
+<script src="chat.js" defer></script>
 
 </body>
 </html>

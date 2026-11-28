@@ -17,6 +17,7 @@ GrowthCore is a modern and visually engaging website designed to help profession
 - **Achievement Section:** Showcases growth statistics and achievements.
 - **Client Testimonials:** Displays customer feedback and experiences.
 - **FAQ Section:** Answers frequently asked questions.
+- **AI Chat Assistant:** A floating chat widget that answers visitor questions about the audit, pricing, timelines and next steps — includes typing indicator, suggested-question chips, session memory and keyboard/screen-reader support.
 - **Responsive Design:** Designed to provide a smooth browsing experience across devices.
 - **Call-to-Action Sections:** Encourages visitors to explore services and get started.
 
