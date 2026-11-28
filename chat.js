@@ -27,8 +27,9 @@
   var history = [];
   var started = false;
   var busy = false;
-  var typingTimer = null;
+  var activeTyping = null;
   var apiUsable = window.location.protocol === 'http:' || window.location.protocol === 'https:';
+  var apiFailures = 0;
 
   /* ------------------------------------------------------------------ *
    * Knowledge base — answers about GrowthCore itself
@@ -64,7 +65,7 @@
     },
     {
       id: 'audit',
-      keys: ['audit', '₹1', '1 rupee', 're 1', 'one rupee', 'profile review', 'review my profile', 'check my profile', 'profile check', 'free review'],
+      keys: ['audit', '₹1', '1 rupee', 're 1', 'one rupee', 'profile review', 'review my profile', 'check my profile', 'profile check', 'free review', 'no views', 'profile views'],
       reply: function () {
         return "The ₹1 Profile Audit is a hands-on review of your LinkedIn profile. Inside it you get:\n\n• A headline and About section rewrite\n• A bio audit — what's working, what reads like a resume\n• Content gap analysis — what your feed is missing\n• A clear brand direction\n• Action steps you can start the same day\n\nIt's ₹1 so you can judge the quality before committing to anything bigger. Book it from the Profile Audit section, or directly at payments.cashfree.com/forms/getaudit.";
       },
@@ -80,7 +81,7 @@
     },
     {
       id: 'content',
-      keys: ['write my own', 'do i write', 'writing', 'who writes', 'content creation', 'post for me', 'posting', 'create content', 'draft'],
+      keys: ['write my own', 'do i write', 'writing', 'who writes', 'content creation', 'post for me', 'posting', 'create content', 'draft', 'post on my profile', 'post on my account'],
       reply: function () {
         return "No — you don't write anything. Ideation, drafting, formats, publishing schedule and the comment pass are handled for you.\n\nYour only job is a weekly approval, roughly 15 minutes. You stay the face of the account; we do the typing.";
       },
@@ -96,7 +97,7 @@
     },
     {
       id: 'price',
-      keys: ['price', 'pricing', 'cost', 'charge', 'fees', 'fee', 'how much', 'budget', 'package', 'retainer', 'expensive'],
+      keys: ['price', 'pricing', 'cost', 'charge', 'fees', 'fee', 'how much', 'budget', 'package', 'retainer', 'expensive', 'discount', 'per month'],
       reply: function () {
         return "Entry point is the ₹1 profile audit — that's a real audit, not a teaser call.\n\nBeyond that, retainers are scoped on the roadmap call based on your goals, posting cadence and whether you want profile-only work or full content plus lead generation. Nothing is charged before that conversation, and the roadmap itself is free.";
       },
@@ -104,7 +105,7 @@
     },
     {
       id: 'services',
-      keys: ['what do you do', 'services', 'how does it work', 'how it works', 'offer', 'help me with', 'growth system', 'strategy'],
+      keys: ['what do you do', 'services', 'how does it work', 'how it works', 'offer', 'help me with', 'growth system', 'strategy', 'leads', 'will this work', 'will it work', 'this will work', 'what is linkedin', 'one time', 'ongoing'],
       reply: function () {
         return "Three layers, in order:\n\n1. Profile optimization — headline, About, experience and featured section built to convert a visitor into a conversation.\n2. Content strategy — positioning pillars, formats and a posting rhythm you can actually sustain.\n3. Lead generation — turning attention into DMs, calls and clients.\n\nThe audit diagnoses what's broken. The roadmap sequences the fix.";
       },
@@ -112,7 +113,7 @@
     },
     {
       id: 'start',
-      keys: ['get started', 'next step', 'sign up', 'signup', 'book', 'enquire', 'inquiry', 'contact', 'talk to', 'call me', 'reach out', 'apply'],
+      keys: ['get started', 'next step', 'sign up', 'signup', 'book', 'enquire', 'inquiry', 'contact', 'talk to', 'call me', 'call', 'reach out', 'apply'],
       reply: function () {
         return "Fastest path: fill the short form in the \"Your Roadmap\" section — name, email, phone — and you'll get a personalized plan back, usually within a business day.\n\nWant a read on your profile before that? The ₹1 audit is the cheapest way in.";
       },
@@ -128,7 +129,7 @@
     },
     {
       id: 'industry',
-      keys: ['industry', 'niche', 'b2b', 'saas', 'finance', 'real estate', 'consulting', 'student', 'fresher', 'job seeker', 'founder', 'works for'],
+      keys: ['industry', 'industries', 'niche', 'b2b', 'saas', 'finance', 'real estate', 'consulting', 'student', 'fresher', 'job seeker', 'founder', 'works for'],
       reply: function () {
         return "LinkedIn works across industries — tech, SaaS, finance, consulting, real estate, design, healthcare and founder-led brands all run the same fundamentals.\n\nThe ₹1 audit includes a brand direction pass tuned to your niche, so nothing you get back is a generic template.";
       },
@@ -136,7 +137,7 @@
     },
     {
       id: 'proof',
-      keys: ['case study', 'proof', 'testimonial', 'results delivered', 'clients', 'examples', 'success story', 'reviews'],
+      keys: ['case study', 'case studies', 'proof', 'testimonial', 'testimonials', 'results delivered', 'clients', 'examples', 'success story', 'reviews', 'delivered', 'show results', 'client results'],
       reply: function () {
         return "The track record so far: 100+ professionals helped, multiple profiles optimized, zero-to-one brand builds and 10k+ organic reach.\n\nTwo specifics from the reviews: Sarah (Product Manager) went from zero reach to recruiters in her DMs weekly, and Kevin (Consultant) saw engagement up 400% in two months.";
       },
@@ -176,37 +177,54 @@
   };
 
   function normalise(text) {
-    return ' ' + String(text).toLowerCase().replace(/[^\w₹\s]|_/g, ' ').replace(/\s+/g, ' ') + ' ';
+    return ' ' + String(text).toLowerCase().replace(/[^\w₹\s]|_/g, ' ').replace(/\s+/g, ' ').trim() + ' ';
   }
 
+  /* Whole words only. Matching inside words made "hi" fire on "this" and "yo"
+   * fire on "you", which stole the match from the question the visitor asked. */
   function scoreIntent(intent, message) {
     var score = 0;
+    var longest = 0;
     for (var i = 0; i < intent.keys.length; i++) {
       var key = intent.keys[i];
-      if (message.indexOf(' ' + key + ' ') !== -1 || message.indexOf(key) !== -1) {
+      if (message.indexOf(' ' + key + ' ') !== -1) {
         // Longer phrases are more specific, so they win ties.
         score += key.split(' ').length + 0.5;
+        if (key.length > longest) longest = key.length;
       }
     }
-    return score;
+    return { score: score, longest: longest };
   }
 
   function localReply(text) {
     var message = normalise(text);
     var best = null;
     var bestScore = 0;
+    var bestLongest = 0;
+    var bestTopic = null;
+    var topicScore = 0;
+    var topicLongest = 0;
 
     for (var i = 0; i < INTENTS.length; i++) {
-      var score = scoreIntent(INTENTS[i], message);
-      if (score > bestScore) {
-        bestScore = score;
-        best = INTENTS[i];
+      var intent = INTENTS[i];
+      var hit = scoreIntent(intent, message);
+
+      if (hit.score > bestScore || (hit.score === bestScore && hit.score > 0 && hit.longest > bestLongest)) {
+        bestScore = hit.score;
+        bestLongest = hit.longest;
+        best = intent;
+      }
+
+      if (intent.id !== 'greet' && (hit.score > topicScore || (hit.score === topicScore && hit.score > 0 && hit.longest > topicLongest))) {
+        topicScore = hit.score;
+        topicLongest = hit.longest;
+        bestTopic = intent;
       }
     }
 
-    // A single generic greeting shouldn't swallow a real question.
-    if (best && best.id === 'greet' && message.trim().split(' ').length > 3 && bestScore < 2) {
-      best = null;
+    // A greeting only answers a greeting: "hi, what does it cost?" is a price question.
+    if (best && best.id === 'greet' && bestTopic && topicScore > 0) {
+      best = bestTopic;
     }
 
     var picked = best || FALLBACK;
@@ -259,6 +277,9 @@
 
       suggest.appendChild(btn);
     });
+
+    // The chips take height from the log; without this the end of the answer hides.
+    scrollToEnd();
   }
 
   function makeBubble(role, text) {
@@ -270,7 +291,21 @@
     return bubble;
   }
 
+  function finishTyping() {
+    if (!activeTyping) return;
+    var job = activeTyping;
+    activeTyping = null;
+    clearInterval(job.timer);
+    job.el.textContent = job.text;
+    log.setAttribute('aria-live', 'polite');
+    scrollToEnd();
+    if (job.done) job.done();
+  }
+
   function typeOut(el, text, done) {
+    // A new answer must never cut an older one off mid-sentence: finish it first.
+    finishTyping();
+
     if (reduceMotion) {
       el.textContent = text;
       scrollToEnd();
@@ -286,11 +321,16 @@
     var duration = Math.min(1100, Math.max(260, text.length * 4));
     var step = Math.max(8, Math.round(duration / parts.length));
 
-    clearInterval(typingTimer);
-    typingTimer = setInterval(function () {
+    // Screen readers get the finished message once, not one letter at a time.
+    log.setAttribute('aria-live', 'off');
+
+    var job = { el: el, text: text, done: done, timer: null };
+    activeTyping = job;
+    job.timer = setInterval(function () {
       if (i >= parts.length) {
-        clearInterval(typingTimer);
-        typingTimer = null;
+        clearInterval(job.timer);
+        activeTyping = null;
+        log.setAttribute('aria-live', 'polite');
         scrollToEnd();
         if (done) done();
         return;
@@ -334,7 +374,8 @@
     if (!apiUsable) return Promise.resolve(null);
 
     var controller = new AbortController();
-    var timeout = setTimeout(function () { controller.abort(); }, 12000);
+    // The function allows the model 20s; aborting earlier killed answers that worked.
+    var timeout = setTimeout(function () { controller.abort(); }, 25000);
 
     return fetch(API_ENDPOINT, {
       method: 'POST',
@@ -347,16 +388,24 @@
       signal: controller.signal
     })
       .then(function (res) {
+        // 503 means the backend has no key: stay local for the rest of the visit.
+        if (res.status === 503) {
+          apiUsable = false;
+          throw new Error('not configured');
+        }
         if (!res.ok) throw new Error('bad status ' + res.status);
         return res.json();
       })
       .then(function (data) {
         if (!data || typeof data.reply !== 'string' || !data.reply.trim()) throw new Error('empty reply');
+        apiFailures = 0;
         return data.reply.trim();
       })
       .catch(function () {
         // No backend (static hosting) or it failed — stay on the local engine.
-        apiUsable = false;
+        // One slow answer must not disable the model for the whole visit.
+        apiFailures += 1;
+        if (apiFailures >= 2) apiUsable = false;
         return null;
       })
       .then(function (reply) {
