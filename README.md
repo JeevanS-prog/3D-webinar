@@ -54,6 +54,38 @@ Add the technologies used in your project here:
 
 ---
 
+## 🤖 AI Chat Assistant
+
+The site ships a floating **Ask GrowthCore AI** chat widget (`chat.js`).
+
+**How it answers**
+
+- **Out of the box (static hosting):** a built-in intent engine answers questions about the
+  ₹1 audit, pricing, timelines, content, results and next steps. No API key, no backend, no cost.
+- **With an LLM (optional):** if `/api/chat` responds, answers come from the model instead.
+  Any failure — missing key, timeout, error — silently falls back to the local engine, so the
+  widget never breaks for a visitor.
+
+**Enabling the LLM backend** (`api/chat.js`, a Vercel serverless function)
+
+1. Import this repo into Vercel.
+2. Add environment variables in **Project → Settings → Environment Variables**:
+
+   | Variable | Required | Purpose |
+   | --- | --- | --- |
+   | `OPENAI_API_KEY` | yes | Server-side key. Never commit it. |
+   | `OPENAI_BASE_URL` | no | Any OpenAI-compatible endpoint. Defaults to `https://api.openai.com/v1`. |
+   | `CHAT_MODEL` | no | Defaults to `gpt-4o-mini`. |
+
+3. Redeploy. Without `OPENAI_API_KEY` the endpoint returns `503` and the site keeps using
+   the local engine.
+
+**Note:** the endpoint is public and unauthenticated, so it spends your API credits. Input is
+capped (12 messages, 1,500 chars each, 6,000 chars total), client-supplied `system` messages
+are stripped, and the system prompt stays server-side. Add rate limiting before high traffic.
+
+---
+
 ## 📌 Key Highlights
 
 - Professional landing page design.
